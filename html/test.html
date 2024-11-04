@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <script src="../js/jquery-3.7.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <style>
+        .mauDo{
+            font-size: 100%;
+            color: red;
+        }
+        [class*="col-"]{
+            padding-right: 0;
+            padding-left: 0;
+        }
+        li{
+            width: 150px;
+        }
+    </style>
+    <script>
+        $(document).ready(function(){
+            var i = 2;
+            $("#btnDK").click(function(){
+                $("#myModal").modal();
+            })
+            function kiemTraMa(){
+                var mauKT = /[0-9]{9}$/;
+                if (mauKT.test($("#txtMa").val())=="") {
+                    $("tbMa").html("bat buoc nhap");
+                    $("#tbMa").addClass("maDo");
+                } else{
+                    $("tbMa").html("bat buoc nhap");
+                    $("#tbMa").addClass("maDo");
+                }
+            }
+            $("#txtMa").blur(kiemTraMa);
+            function kiemTraHT(){
+                var kt = /(^[A-Z]{1}[a-z]+)(\s[A-Z]{1}[a-z]*)+$/;
+                if ($("#txtHT").val()==""){
+                    $("tbTen").html("nhap sai");
+                    $("#tbTen").addClass("maDo");
+                    return false;
+                }
+                if (!kt.test($("#txtHT").val())){
+                    $("tbTen").html("chu cai dau viet hoa");
+                    $("#tbTen").addClass("maDo");
+                    return false; 
+                }
+                $("#tbTen").html("*");
+                return true;
+            };
+            $("#txtHT").blur(kiemTraHT);
+            function kiemTraDC(){
+                var mauKT1 = /^[a-z0-9-_]{3,15}$/;
+                var mauKT =/(abc)$/;
+                if($("#txtDC").val()==""){
+                    $("tbDC").html("bat buoc nhap");
+                    $("#tbDC").addClass("maDo");
+                    return false;
+                }
+                if (!mauKT.test($("#txtDC").val())){
+                    $("tbDC").html("nhap sai");
+                    $("#tbDC").addClass("maDo");
+                    return false;
+                }
+                $("#tbDC").html("*");
+                return true;
+            }
+            $("#txtDC").blur(kiemTraDC);
+            $("#slGia").change(function(){
+                $("#slGia option:selected").each(function(){
+                    alert($(this).val());
+                    $("#txtDV").val($(this).val());
+                });
+            });
+            $(".chkDoDung").click(function(){
+                var tienDD = 0;
+                var n = $(".chkDoDung:checked").length;
+                if(n==0){
+                    $(".chkDoDung:unchecked").each(function(){
+                        tienDD = 0;
+                        $("#txtDD").val(tienDD);
+                    });
+                }
+                if (n>0){
+                    $(".chkDoDung:checked").each(function(){
+                        tienDD += parseFloat($(this).val());
+                        $("#txtDD").val(tienDD);
+                    });
+                }
+                var tong = parseFloat($("#txtDD").val())+parseFloat($("#txtDV").val());
+                $("#txtTong").val(tong);
+            });
+            $("#btnSave").click(function(){
+                var ma = $("#txtMa").val();
+                var ht = $("#txtHT").val();
+                var dc = $("#txtDC").val();
+                var tdv = $("#txtDV").val();
+                var tdd = $("#txtDD").val();
+                var tong = $("#txtTong").val();
+                var them = "<tr><td>" + (i++) + "</td><td>" + ma + "</td><td>" + ht + "</td><td>" + dc + "</td><td>" + "</td><td>" + 
+                    tdv + "</td><td>" + tdd+"</td><td>" + tong + "</td><tr>";
+                $("#tbDanhSach").append(them);
+                $("#myModal").modal("hide");  
+                return true;          
+            });
+        });
+    </script>
+
+</head>
+<body>
+    <div class="container border">
+        <div class="row">
+            <div class="col-12">
+                <img src="../img/47ba313565b7dde984a6.jpg" alt="" width="100%">
+            </div>
+        </div>
+        <div class="row">
+            <nav class="navbar">
+                <ul class="nav nav-navbar nav-expand">
+                    <li class="nav-item"><a href="#" class="nav-link">Trang chu</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" id="btnDK">Dang ki</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Tro giup</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="row">
+            <table class="table-bordered table-light table-primary table-hover table table-striped " id="tbDanhSach">
+                <tr>
+                    <th>STT</th>
+                    <th>Ma hoc vien</th>
+                    <th>Ho ten</th>
+                    <th>Email</th>
+                    <th>Tien dich vu</th>
+                    <th>Tien do dung</th>
+                    <th>Tong tien</th>
+                </tr>
+                <tr>
+                    <th>1</th>
+                    <th>12345678</th>
+                    <th>Tran Anh</th>
+                    <th>anh@gmail.edu</th>
+                    <th>30000</th>
+                    <th>10000</th>
+                    <th>40000</th>
+                </tr>
+            </table>
+        </div>
+        <div class="row">
+            <div class="modal fade" id="myModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5>THONG TIN THANH TOAN</h5>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-control">
+                                <div class="row form-group p-1">
+                                    <div class="col-3 col-sm-3">
+                                        <label for="">Ma hoc vien:</label>
+                                    </div>
+                                    <div class="col-3 col-sm-6">
+                                        <input type="text" class="form-control" placeholder="123456789" id="txtMa">
+                                    </div>
+                                    <div class="col-3 col-sm-3 p-2">
+                                        <span id="tbMa">*</span>
+                                    </div>
+                                </div>
+                                <div class="row form-group p-1">
+                                    <div class="col-3 col-sm-3">
+                                        <label for="">Ho ten:</label>
+                                    </div>
+                                    <div class="col-6 col-sm-6">
+                                        <input type="text" class="form-control" placeholder="Tran Anh" id="txtHT">
+                                    </div>
+                                    <div class="col-3 col-sm-3 p-2">
+                                        <span id="tbHT">*</span>
+                                    </div>
+                                </div>
+                                <div class="row form-group p-1">
+                                    <div class="col-6 col-sm-3">
+                                        <label for="">Email:</label>
+                                    </div>
+                                    <div class="col-6 col-sm-6">
+                                        <input type="text" class="form-control" placeholder="anh@gmail.edu.vn" id="txtDC">
+                                    </div>
+                                    <div class="col-3 col-sm-3 p-2">
+                                        <span id="tbEmail">*</span>
+                                    </div>
+                                </div>
+                                <div class="row from-group p-1">
+                                    <div class="col-4 col-sm-3">
+                                        <label for="">Dich vu:</label>
+                                    </div>
+                                    <div class="col-6 col-sm-6">
+                                        <select name="gia" class="form-control" id="slGia">
+                                            <option value="2000">Boi</option>
+                                            <option value="3000">truoc van</option>
+                                            <option value="5000">moto nuoc</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row from-group p-1">
+                                    <div class="col-4 col-sm-3">
+                                        <label for="">gia tien:</label>
+                                    </div>
+                                    <div class="col-8 col-sm-6">
+                                        <input type="text" name="txtDV" id="txtDV" class="form-control" disabled>
+                                    </div>
+                                </div>
+                                <div class="row from-group p-1">
+                                    <div class="col-4 col-sm-3">
+                                        <label for="">do dung:</label>
+                                    </div>
+                                    <div class="col-8 col-sm-6">
+                                        <input type="checkbox" name="chkDoDung" class="chkDoDung" value="20000">ao quan boi
+                                    </div>
+                                </div>
+                                <div class="row from-group p-1">
+                                    <div class="col-4 col-sm-3">
+                                        <label for=""></label>
+                                    </div>
+                                    <div class="col-8 col-sm-6">
+                                        <input type="checkbox" name="chkDoDung" class="chkDoDung" value="50000">phao
+                                    </div>
+                                </div>
+                                <div class="row from-group p-1">
+                                    <div class="col-4 col-sm-3">
+                                        <label for=""></label>
+                                    </div>
+                                    <div class="col-8 col-sm-6">
+                                        <input type="checkbox" name="chkDoDung" class="chkDoDung" value="70000">kinh boi
+                                    </div>
+                                </div>
+                                <div class="row p-1">
+                                    <div class="col-4 col-sm-3">
+                                        <label for="">tien do dung:</label>
+                                    </div>
+                                    <div class="col-8 col-sm-6">
+                                        <input type="text" name="txtDD" class="from-control" value="0" disabled>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row p-1">
+                                    <div class="col-4 col-sm-3">
+                                        <label for="">tong tien:</label>
+                                    </div>
+                                    <div class="col-8 col-sm-6">
+                                        <input type="text" name="txtTong" class="from-control" disabled>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row p-1">
+                                    <div class="col-sm-6"><input type="button" value="thanh toan" id="btnSave" class="btn btn-success btn-block"></div>
+                                    <div class="col-sm-6"><input type="reset" value="huy"  class="btn btn-danger btn-block"></div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="madal-footer">
+                            <h4>Trang thanh toan</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4 col-md-4">
+                <h6>Ma sinh vien:___________</h6>
+            </div>
+            <div class="col-4 col-md-4">
+                <h6>Ho ten:___________</h6>
+            </div>
+            <div class="col-4 col-md-4">
+                <h6>Phong thi:___________</h6>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
